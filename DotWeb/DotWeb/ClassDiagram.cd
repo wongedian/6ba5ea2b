@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DotWeb.App" Collapsed="true">
+    <Position X="4.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAEAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Config\App.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotWeb.Group" Collapsed="true">
+    <Position X="4.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAFAAAAAAAAQQAAAAAAAAAAAAAAQgAAI=</HashCode>
+      <FileName>Config\Group.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotWeb.Module" Collapsed="true">
+    <Position X="4.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAEAEAAAAAFAAAAAIAAAAAAIAAAAACAAAAQAAAAI=</HashCode>
+      <FileName>Config\Module.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotWeb.TableMeta" Collapsed="true">
+    <Position X="2" Y="1" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAABAAAAAAEAAAEAAQAAAAAAAAACAAAAAwgwAA=</HashCode>
+      <FileName>Config\TableMeta.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotWeb.ColumnMeta" Collapsed="true">
+    <Position X="2" Y="2" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAIAAAKEAAAIQAQgABAAAAAACACQAAAABAI=</HashCode>
+      <FileName>Config\ColumnMeta.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotWeb.TableMetaRelation" Collapsed="true">
+    <Position X="2" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACBAAAAAAAAIAEAAAAQAAAAAAAAAAACgAAAAAAIAg=</HashCode>
+      <FileName>Config\TableMetaRelations.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="DotWeb.ModuleType" Collapsed="true">
+    <Position X="7" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Config\Module.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b3b79fb7052a43e1a241eabea2ce4f6c" Name="Diagram1">
+        <EntityTypeShape EntityType="DotWebDbModel.App" Width="1.5" PointX="1.375" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DotWebDbModel.ColumnMeta" Width="1.5" PointX="6.375" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DotWebDbModel.Group" Width="1.5" PointX="1.375" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DotWebDbModel.Module" Width="1.5" PointX="1.375" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DotWebDbModel.TableMetaRelation" Width="2.25" PointX="3.5" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DotWebDbModel.TableMeta" Width="1.5" PointX="3.75" PointY="1.75" IsExpanded="true" />
+        <AssociationConnector Association="DotWebDbModel.FK_dbo_Groups_dbo_Apps_AppId" ManuallyRouted="false" />
+        <AssociationConnector Association="DotWebDbModel.FK_dbo_TableMetas_dbo_Apps_AppId" ManuallyRouted="false" />
+        <AssociationConnector Association="DotWebDbModel.FK_dbo_ColumnMetas_dbo_TableMetas_ReferenceTableId" ManuallyRouted="false" />
+        <AssociationConnector Association="DotWebDbModel.FK_dbo_ColumnMetas_dbo_TableMetas_TableId" ManuallyRouted="false" />
+        <AssociationConnector Association="DotWebDbModel.FK_dbo_TableMetas_dbo_ColumnMetas_LookUpDisplayId" ManuallyRouted="false" />
+        <AssociationConnector Association="DotWebDbModel.FK_dbo_Modules_dbo_Groups_GroupId" ManuallyRouted="false" />
+        <AssociationConnector Association="DotWebDbModel.FK_dbo_TableMetaRelations_dbo_TableMetas_ChildId" ManuallyRouted="false" />
+        <AssociationConnector Association="DotWebDbModel.FK_dbo_TableMetaRelations_dbo_TableMetas_ParentId" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

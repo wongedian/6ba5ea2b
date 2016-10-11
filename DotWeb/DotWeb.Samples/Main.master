@@ -1,0 +1,49 @@
+<%@ Master Language="C#" MasterPageFile="~/Root.master" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="DotWeb_Samples.MainMaster" %>
+
+<asp:Content ID="title" ContentPlaceHolderID="PageTitle" runat="server"><asp:ContentPlaceHolder ID="PageTitle" runat="server"/></asp:Content>
+
+<asp:Content ID="content" ContentPlaceHolderID="Content" runat="server">
+    <dx:ASPxSplitter ID="ContentSplitter" runat="server" Width="100%" Height="100%">
+        <ClientSideEvents PaneResized="function(s, e) { 
+            if(window.masterGridView && e.pane.name == 'ContentCenter')
+                masterGridView.SetHeight(e.pane.GetClientHeight());
+            }" 
+        />
+        <Styles>
+            <Pane>
+                <Paddings Padding="0px" />
+                <Border BorderWidth="0px" />
+            </Pane>
+        </Styles>
+        <Panes>
+            <dx:SplitterPane Name="ContentLeft" ShowCollapseBackwardButton="True" Size="200px" MinSize="150px" ScrollBars="Auto">
+                <PaneStyle CssClass="leftPane"></PaneStyle>
+                <PaneStyle>
+                    <Paddings Padding="1px" />
+                </PaneStyle>
+                <ContentCollection>
+                    <dx:SplitterContentControl>
+                        <div class="leftPanel">
+                            <dw:LeftMenu ID="LeftMenu" runat="server" AutoCollapse="True" EnableAnimation="True" Width="100%"></dw:LeftMenu>
+                        </div>
+                    </dx:SplitterContentControl>
+                </ContentCollection>
+            </dx:SplitterPane>
+            <dx:SplitterPane Name="ContentCenter" ScrollBars="Auto">
+                <PaneStyle CssClass="contentPane"></PaneStyle>
+                <Separator Visible="True">
+                    <SeparatorStyle>
+                        <Border BorderWidth="1px" />
+                        <BorderTop BorderWidth="0px" />
+                        <BorderBottom BorderWidth="0px" />
+                    </SeparatorStyle>
+                </Separator>
+                <ContentCollection>
+                    <dx:SplitterContentControl>
+                        <asp:ContentPlaceHolder ID="MainContent" runat="server"/>
+                    </dx:SplitterContentControl>
+                </ContentCollection>
+            </dx:SplitterPane>
+        </Panes>
+    </dx:ASPxSplitter>
+</asp:Content>

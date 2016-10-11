@@ -1,0 +1,575 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DotWebDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Apps">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ColumnMetas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Caption" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="DataType" Type="int" Nullable="false" />
+          <Property Name="IsRequired" Type="bit" Nullable="false" />
+          <Property Name="MaxLength" Type="int" />
+          <Property Name="OrderNo" Type="int" Nullable="false" />
+          <Property Name="DisplayInGrid" Type="bit" Nullable="false" />
+          <Property Name="EnumTypeName" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsForeignKey" Type="bit" Nullable="false" />
+          <Property Name="IsPrimaryKey" Type="bit" Nullable="false" />
+          <Property Name="ReferenceTableId" Type="int" />
+          <Property Name="TableId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Groups">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="OrderNo" Type="int" Nullable="false" />
+          <Property Name="ShowInLeftMenu" Type="bit" Nullable="false" />
+          <Property Name="AppId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Modules">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ModuleType" Type="int" Nullable="false" />
+          <Property Name="ScaffoldEntity" Type="nvarchar" MaxLength="100" />
+          <Property Name="TableName" Type="nvarchar" MaxLength="100" />
+          <Property Name="OrderNo" Type="int" Nullable="false" />
+          <Property Name="Url" Type="nvarchar" MaxLength="100" />
+          <Property Name="GroupId" Type="int" Nullable="false" />
+          <Property Name="ShowInLeftMenu" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TableMetaRelations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParentId" Type="int" Nullable="false" />
+          <Property Name="ChildId" Type="int" Nullable="false" />
+          <Property Name="ForeignKeyName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Caption" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsRendered" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TableMetas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Caption" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="SchemaName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="AppId" Type="int" Nullable="false" />
+          <Property Name="LookUpDisplayId" Type="int" />
+        </EntityType>
+        <Association Name="FK_dbo_ColumnMetas_dbo_TableMetas_ReferenceTableId">
+          <End Role="TableMetas" Type="Self.TableMetas" Multiplicity="0..1" />
+          <End Role="ColumnMetas" Type="Self.ColumnMetas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableMetas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ColumnMetas">
+              <PropertyRef Name="ReferenceTableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ColumnMetas_dbo_TableMetas_TableId">
+          <End Role="TableMetas" Type="Self.TableMetas" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ColumnMetas" Type="Self.ColumnMetas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableMetas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ColumnMetas">
+              <PropertyRef Name="TableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Groups_dbo_Apps_AppId">
+          <End Role="Apps" Type="Self.Apps" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Groups" Type="Self.Groups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apps">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Groups">
+              <PropertyRef Name="AppId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Modules_dbo_Groups_GroupId">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Modules" Type="Self.Modules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Modules">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_TableMetaRelations_dbo_TableMetas_ChildId">
+          <End Role="TableMetas" Type="Self.TableMetas" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TableMetaRelations" Type="Self.TableMetaRelations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableMetas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TableMetaRelations">
+              <PropertyRef Name="ChildId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_TableMetaRelations_dbo_TableMetas_ParentId">
+          <End Role="TableMetas" Type="Self.TableMetas" Multiplicity="1" />
+          <End Role="TableMetaRelations" Type="Self.TableMetaRelations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableMetas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TableMetaRelations">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_TableMetas_dbo_Apps_AppId">
+          <End Role="Apps" Type="Self.Apps" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TableMetas" Type="Self.TableMetas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apps">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TableMetas">
+              <PropertyRef Name="AppId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_TableMetas_dbo_ColumnMetas_LookUpDisplayId">
+          <End Role="ColumnMetas" Type="Self.ColumnMetas" Multiplicity="0..1" />
+          <End Role="TableMetas" Type="Self.TableMetas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ColumnMetas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TableMetas">
+              <PropertyRef Name="LookUpDisplayId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DotWebDbModelStoreContainer">
+          <EntitySet Name="Apps" EntityType="Self.Apps" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ColumnMetas" EntityType="Self.ColumnMetas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Groups" EntityType="Self.Groups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Modules" EntityType="Self.Modules" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TableMetaRelations" EntityType="Self.TableMetaRelations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TableMetas" EntityType="Self.TableMetas" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_ColumnMetas_dbo_TableMetas_ReferenceTableId" Association="Self.FK_dbo_ColumnMetas_dbo_TableMetas_ReferenceTableId">
+            <End Role="TableMetas" EntitySet="TableMetas" />
+            <End Role="ColumnMetas" EntitySet="ColumnMetas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ColumnMetas_dbo_TableMetas_TableId" Association="Self.FK_dbo_ColumnMetas_dbo_TableMetas_TableId">
+            <End Role="TableMetas" EntitySet="TableMetas" />
+            <End Role="ColumnMetas" EntitySet="ColumnMetas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Groups_dbo_Apps_AppId" Association="Self.FK_dbo_Groups_dbo_Apps_AppId">
+            <End Role="Apps" EntitySet="Apps" />
+            <End Role="Groups" EntitySet="Groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Modules_dbo_Groups_GroupId" Association="Self.FK_dbo_Modules_dbo_Groups_GroupId">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="Modules" EntitySet="Modules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_TableMetaRelations_dbo_TableMetas_ChildId" Association="Self.FK_dbo_TableMetaRelations_dbo_TableMetas_ChildId">
+            <End Role="TableMetas" EntitySet="TableMetas" />
+            <End Role="TableMetaRelations" EntitySet="TableMetaRelations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_TableMetaRelations_dbo_TableMetas_ParentId" Association="Self.FK_dbo_TableMetaRelations_dbo_TableMetas_ParentId">
+            <End Role="TableMetas" EntitySet="TableMetas" />
+            <End Role="TableMetaRelations" EntitySet="TableMetaRelations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_TableMetas_dbo_Apps_AppId" Association="Self.FK_dbo_TableMetas_dbo_Apps_AppId">
+            <End Role="Apps" EntitySet="Apps" />
+            <End Role="TableMetas" EntitySet="TableMetas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_TableMetas_dbo_ColumnMetas_LookUpDisplayId" Association="Self.FK_dbo_TableMetas_dbo_ColumnMetas_LookUpDisplayId">
+            <End Role="ColumnMetas" EntitySet="ColumnMetas" />
+            <End Role="TableMetas" EntitySet="TableMetas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DotWebDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="App">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Groups" Relationship="Self.FK_dbo_Groups_dbo_Apps_AppId" FromRole="Apps" ToRole="Groups" />
+          <NavigationProperty Name="TableMetas" Relationship="Self.FK_dbo_TableMetas_dbo_Apps_AppId" FromRole="Apps" ToRole="TableMetas" />
+        </EntityType>
+        <EntityType Name="ColumnMeta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Caption" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DataType" Type="Int32" Nullable="false" />
+          <Property Name="IsRequired" Type="Boolean" Nullable="false" />
+          <Property Name="MaxLength" Type="Int32" />
+          <Property Name="OrderNo" Type="Int32" Nullable="false" />
+          <Property Name="DisplayInGrid" Type="Boolean" Nullable="false" />
+          <Property Name="EnumTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsForeignKey" Type="Boolean" Nullable="false" />
+          <Property Name="IsPrimaryKey" Type="Boolean" Nullable="false" />
+          <Property Name="ReferenceTableId" Type="Int32" />
+          <Property Name="TableId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TableMeta" Relationship="Self.FK_dbo_ColumnMetas_dbo_TableMetas_ReferenceTableId" FromRole="ColumnMetas" ToRole="TableMetas" />
+          <NavigationProperty Name="TableMeta1" Relationship="Self.FK_dbo_ColumnMetas_dbo_TableMetas_TableId" FromRole="ColumnMetas" ToRole="TableMetas" />
+          <NavigationProperty Name="TableMetas" Relationship="Self.FK_dbo_TableMetas_dbo_ColumnMetas_LookUpDisplayId" FromRole="ColumnMetas" ToRole="TableMetas" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OrderNo" Type="Int32" Nullable="false" />
+          <Property Name="ShowInLeftMenu" Type="Boolean" Nullable="false" />
+          <Property Name="AppId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="App" Relationship="Self.FK_dbo_Groups_dbo_Apps_AppId" FromRole="Groups" ToRole="Apps" />
+          <NavigationProperty Name="Modules" Relationship="Self.FK_dbo_Modules_dbo_Groups_GroupId" FromRole="Groups" ToRole="Modules" />
+        </EntityType>
+        <EntityType Name="Module">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ModuleType" Type="Int32" Nullable="false" />
+          <Property Name="ScaffoldEntity" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TableName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OrderNo" Type="Int32" Nullable="false" />
+          <Property Name="Url" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <Property Name="ShowInLeftMenu" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Group" Relationship="Self.FK_dbo_Modules_dbo_Groups_GroupId" FromRole="Modules" ToRole="Groups" />
+        </EntityType>
+        <EntityType Name="TableMetaRelation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParentId" Type="Int32" Nullable="false" />
+          <Property Name="ChildId" Type="Int32" Nullable="false" />
+          <Property Name="ForeignKeyName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Caption" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsRendered" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TableMeta" Relationship="Self.FK_dbo_TableMetaRelations_dbo_TableMetas_ChildId" FromRole="TableMetaRelations" ToRole="TableMetas" />
+          <NavigationProperty Name="TableMeta1" Relationship="Self.FK_dbo_TableMetaRelations_dbo_TableMetas_ParentId" FromRole="TableMetaRelations" ToRole="TableMetas" />
+        </EntityType>
+        <EntityType Name="TableMeta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Caption" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SchemaName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AppId" Type="Int32" Nullable="false" />
+          <Property Name="LookUpDisplayId" Type="Int32" />
+          <NavigationProperty Name="App" Relationship="Self.FK_dbo_TableMetas_dbo_Apps_AppId" FromRole="TableMetas" ToRole="Apps" />
+          <NavigationProperty Name="ColumnMetas" Relationship="Self.FK_dbo_ColumnMetas_dbo_TableMetas_ReferenceTableId" FromRole="TableMetas" ToRole="ColumnMetas" />
+          <NavigationProperty Name="ColumnMetas1" Relationship="Self.FK_dbo_ColumnMetas_dbo_TableMetas_TableId" FromRole="TableMetas" ToRole="ColumnMetas" />
+          <NavigationProperty Name="ColumnMeta" Relationship="Self.FK_dbo_TableMetas_dbo_ColumnMetas_LookUpDisplayId" FromRole="TableMetas" ToRole="ColumnMetas" />
+          <NavigationProperty Name="TableMetaRelations" Relationship="Self.FK_dbo_TableMetaRelations_dbo_TableMetas_ChildId" FromRole="TableMetas" ToRole="TableMetaRelations" />
+          <NavigationProperty Name="TableMetaRelations1" Relationship="Self.FK_dbo_TableMetaRelations_dbo_TableMetas_ParentId" FromRole="TableMetas" ToRole="TableMetaRelations" />
+        </EntityType>
+        <Association Name="FK_dbo_Groups_dbo_Apps_AppId">
+          <End Role="Apps" Type="Self.App" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Groups" Type="Self.Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apps">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Groups">
+              <PropertyRef Name="AppId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_TableMetas_dbo_Apps_AppId">
+          <End Role="Apps" Type="Self.App" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TableMetas" Type="Self.TableMeta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apps">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TableMetas">
+              <PropertyRef Name="AppId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ColumnMetas_dbo_TableMetas_ReferenceTableId">
+          <End Role="TableMetas" Type="Self.TableMeta" Multiplicity="0..1" />
+          <End Role="ColumnMetas" Type="Self.ColumnMeta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableMetas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ColumnMetas">
+              <PropertyRef Name="ReferenceTableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ColumnMetas_dbo_TableMetas_TableId">
+          <End Role="TableMetas" Type="Self.TableMeta" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ColumnMetas" Type="Self.ColumnMeta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableMetas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ColumnMetas">
+              <PropertyRef Name="TableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_TableMetas_dbo_ColumnMetas_LookUpDisplayId">
+          <End Role="ColumnMetas" Type="Self.ColumnMeta" Multiplicity="0..1" />
+          <End Role="TableMetas" Type="Self.TableMeta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ColumnMetas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TableMetas">
+              <PropertyRef Name="LookUpDisplayId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Modules_dbo_Groups_GroupId">
+          <End Role="Groups" Type="Self.Group" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Modules" Type="Self.Module" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Modules">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_TableMetaRelations_dbo_TableMetas_ChildId">
+          <End Role="TableMetas" Type="Self.TableMeta" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TableMetaRelations" Type="Self.TableMetaRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableMetas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TableMetaRelations">
+              <PropertyRef Name="ChildId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_TableMetaRelations_dbo_TableMetas_ParentId">
+          <End Role="TableMetas" Type="Self.TableMeta" Multiplicity="1" />
+          <End Role="TableMetaRelations" Type="Self.TableMetaRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableMetas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TableMetaRelations">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Apps" EntityType="Self.App" />
+          <EntitySet Name="ColumnMetas" EntityType="Self.ColumnMeta" />
+          <EntitySet Name="Groups" EntityType="Self.Group" />
+          <EntitySet Name="Modules" EntityType="Self.Module" />
+          <EntitySet Name="TableMetaRelations" EntityType="Self.TableMetaRelation" />
+          <EntitySet Name="TableMetas" EntityType="Self.TableMeta" />
+          <AssociationSet Name="FK_dbo_Groups_dbo_Apps_AppId" Association="Self.FK_dbo_Groups_dbo_Apps_AppId">
+            <End Role="Apps" EntitySet="Apps" />
+            <End Role="Groups" EntitySet="Groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_TableMetas_dbo_Apps_AppId" Association="Self.FK_dbo_TableMetas_dbo_Apps_AppId">
+            <End Role="Apps" EntitySet="Apps" />
+            <End Role="TableMetas" EntitySet="TableMetas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ColumnMetas_dbo_TableMetas_ReferenceTableId" Association="Self.FK_dbo_ColumnMetas_dbo_TableMetas_ReferenceTableId">
+            <End Role="TableMetas" EntitySet="TableMetas" />
+            <End Role="ColumnMetas" EntitySet="ColumnMetas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ColumnMetas_dbo_TableMetas_TableId" Association="Self.FK_dbo_ColumnMetas_dbo_TableMetas_TableId">
+            <End Role="TableMetas" EntitySet="TableMetas" />
+            <End Role="ColumnMetas" EntitySet="ColumnMetas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_TableMetas_dbo_ColumnMetas_LookUpDisplayId" Association="Self.FK_dbo_TableMetas_dbo_ColumnMetas_LookUpDisplayId">
+            <End Role="ColumnMetas" EntitySet="ColumnMetas" />
+            <End Role="TableMetas" EntitySet="TableMetas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Modules_dbo_Groups_GroupId" Association="Self.FK_dbo_Modules_dbo_Groups_GroupId">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="Modules" EntitySet="Modules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_TableMetaRelations_dbo_TableMetas_ChildId" Association="Self.FK_dbo_TableMetaRelations_dbo_TableMetas_ChildId">
+            <End Role="TableMetas" EntitySet="TableMetas" />
+            <End Role="TableMetaRelations" EntitySet="TableMetaRelations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_TableMetaRelations_dbo_TableMetas_ParentId" Association="Self.FK_dbo_TableMetaRelations_dbo_TableMetas_ParentId">
+            <End Role="TableMetas" EntitySet="TableMetas" />
+            <End Role="TableMetaRelations" EntitySet="TableMetaRelations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DotWebDbModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Apps">
+            <EntityTypeMapping TypeName="DotWebDbModel.App">
+              <MappingFragment StoreEntitySet="Apps">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ColumnMetas">
+            <EntityTypeMapping TypeName="DotWebDbModel.ColumnMeta">
+              <MappingFragment StoreEntitySet="ColumnMetas">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Caption" ColumnName="Caption" />
+                <ScalarProperty Name="DataType" ColumnName="DataType" />
+                <ScalarProperty Name="IsRequired" ColumnName="IsRequired" />
+                <ScalarProperty Name="MaxLength" ColumnName="MaxLength" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="DisplayInGrid" ColumnName="DisplayInGrid" />
+                <ScalarProperty Name="EnumTypeName" ColumnName="EnumTypeName" />
+                <ScalarProperty Name="IsForeignKey" ColumnName="IsForeignKey" />
+                <ScalarProperty Name="IsPrimaryKey" ColumnName="IsPrimaryKey" />
+                <ScalarProperty Name="ReferenceTableId" ColumnName="ReferenceTableId" />
+                <ScalarProperty Name="TableId" ColumnName="TableId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="DotWebDbModel.Group">
+              <MappingFragment StoreEntitySet="Groups">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="ShowInLeftMenu" ColumnName="ShowInLeftMenu" />
+                <ScalarProperty Name="AppId" ColumnName="AppId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Modules">
+            <EntityTypeMapping TypeName="DotWebDbModel.Module">
+              <MappingFragment StoreEntitySet="Modules">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ModuleType" ColumnName="ModuleType" />
+                <ScalarProperty Name="ScaffoldEntity" ColumnName="ScaffoldEntity" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="ShowInLeftMenu" ColumnName="ShowInLeftMenu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TableMetaRelations">
+            <EntityTypeMapping TypeName="DotWebDbModel.TableMetaRelation">
+              <MappingFragment StoreEntitySet="TableMetaRelations">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="ChildId" ColumnName="ChildId" />
+                <ScalarProperty Name="ForeignKeyName" ColumnName="ForeignKeyName" />
+                <ScalarProperty Name="Caption" ColumnName="Caption" />
+                <ScalarProperty Name="IsRendered" ColumnName="IsRendered" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TableMetas">
+            <EntityTypeMapping TypeName="DotWebDbModel.TableMeta">
+              <MappingFragment StoreEntitySet="TableMetas">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Caption" ColumnName="Caption" />
+                <ScalarProperty Name="SchemaName" ColumnName="SchemaName" />
+                <ScalarProperty Name="AppId" ColumnName="AppId" />
+                <ScalarProperty Name="LookUpDisplayId" ColumnName="LookUpDisplayId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

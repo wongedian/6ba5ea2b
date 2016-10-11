@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8CF552AA-80C6-4018-8BE9-CD1C4A862C6A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DotWeb</RootNamespace>
+    <AssemblyName>DotWeb</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Data.v14.2, Version=14.2.13.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.v14.2, Version=14.2.13.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes\ScaffoldAttribute.cs" />
+    <Compile Include="Attributes\LookUpDisplayAttribute.cs" />
+    <Compile Include="Models\App.cs" />
+    <Compile Include="Models\Constants.cs" />
+    <Compile Include="Models\DotWebDb.cs" />
+    <Compile Include="Dynamic\SchemaInfo.cs" />
+    <Compile Include="UI\EditPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\FormLayoutCreator.cs" />
+    <Compile Include="UI\IMainMaster.cs" />
+    <Compile Include="UI\LeftMenu.cs" />
+    <Compile Include="UI\DetailGridCreator.cs" />
+    <Compile Include="UI\DetailGridTemplate.cs" />
+    <Compile Include="UI\ListPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\MasterGridCreator.cs" />
+    <Compile Include="UI\MultipleDetailGridTemplate.cs" />
+    <Compile Include="Utils\FKInfo.cs" />
+    <Compile Include="Utils\GridViewHelper.cs" />
+    <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\Module.cs" />
+    <Compile Include="Models\ColumnMeta.cs" />
+    <Compile Include="Utils\SqlHelper.cs" />
+    <Compile Include="Models\TableMetaRelations.cs" />
+    <Compile Include="Dynamic\DbInspector.cs" />
+    <Compile Include="Models\TableMeta.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Scaffolding\EntityInspector.cs" />
+    <Compile Include="Scaffolding\EntityMeta.cs" />
+    <Compile Include="Scaffolding\EntityProp.cs" />
+    <Compile Include="Scaffolding\Worker.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\Helper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="ClassDiagram.cd" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ContentWithTargetPath Include="lib\DevExpress.Charts.v14.2.Core.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.Charts.v14.2.Core.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.Data.v14.2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.Data.v14.2.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.Office.v14.2.Core.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.Office.v14.2.Core.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.PivotGrid.v14.2.Core.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.PivotGrid.v14.2.Core.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.Printing.v14.2.Core.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.Printing.v14.2.Core.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.RichEdit.v14.2.Core.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.RichEdit.v14.2.Core.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.SpellChecker.v14.2.Core.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.SpellChecker.v14.2.Core.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.Spreadsheet.v14.2.Core.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.Spreadsheet.v14.2.Core.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.Utils.v14.2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.Utils.v14.2.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.Web.ASPxGauges.v14.2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.Web.ASPxGauges.v14.2.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.Web.ASPxHtmlEditor.v14.2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.Web.ASPxHtmlEditor.v14.2.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.Web.ASPxPivotGrid.v14.2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.Web.ASPxPivotGrid.v14.2.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.Web.ASPxRichEdit.v14.2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.Web.ASPxRichEdit.v14.2.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.Web.ASPxScheduler.v14.2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.Web.ASPxScheduler.v14.2.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.Web.ASPxSpellChecker.v14.2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.Web.ASPxSpellChecker.v14.2.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.Web.ASPxSpreadsheet.v14.2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.Web.ASPxSpreadsheet.v14.2.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.Web.ASPxThemes.v14.2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.Web.ASPxThemes.v14.2.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.Web.ASPxTreeList.v14.2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.Web.ASPxTreeList.v14.2.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.Web.v14.2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.Web.v14.2.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.XtraCharts.v14.2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.XtraCharts.v14.2.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.XtraCharts.v14.2.Web.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.XtraCharts.v14.2.Web.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.XtraGauges.v14.2.Core.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.XtraGauges.v14.2.Core.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.XtraGauges.v14.2.Presets.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.XtraGauges.v14.2.Presets.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.XtraReports.v14.2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.XtraReports.v14.2.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.XtraReports.v14.2.Web.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.XtraReports.v14.2.Web.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.XtraScheduler.v14.2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.XtraScheduler.v14.2.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.XtraPivotGrid.v14.2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.XtraPivotGrid.v14.2.dll</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="lib\DevExpress.XtraScheduler.v14.2.Core.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>DevExpress.XtraScheduler.v14.2.Core.dll</TargetPath>
+    </ContentWithTargetPath>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lib\readme.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

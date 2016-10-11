@@ -65,6 +65,7 @@
     <Compile Include="UI\EditPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="UI\FormLayoutCreator.cs" />
     <Compile Include="UI\IMainMaster.cs" />
     <Compile Include="UI\LeftMenu.cs" />
     <Compile Include="UI\DetailGridCreator.cs" />

@@ -1,0 +1,1 @@
+<%@ Application Codebehind="Global.asax.cs" Inherits="DotWeb_Samples.Global_asax" Language="C#" %>

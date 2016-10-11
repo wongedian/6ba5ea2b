@@ -4,14 +4,22 @@ using System.Web.UI;
 
 namespace DotWeb.UI
 {
+    /// <summary>
+    /// This class is an implementation of ITemplate. Instance of this class can be placed in grid view's DetailRow template.
+    /// </summary>
     public class DetailGridTemplate : ITemplate
     {
-        Control parent;
-        object masterKey;
-        TableMetaRelation detailTable;
-        TableMeta masterTableMeta;
-        string connectionString;
+        private Control parent;
+        private object masterKey;
+        private TableMetaRelation detailTable;
+        private TableMeta masterTableMeta;
+        private string connectionString;
 
+        /// <summary>
+        /// Parameterized constructor of <see cref="DetailGridTemplate"/>.
+        /// </summary>
+        /// <param name="masterTableMeta">Meta data of master table.</param>
+        /// <param name="connectionString">The connection string to underlying database.</param>
         public DetailGridTemplate(TableMeta masterTableMeta, string connectionString)
         {
             this.masterTableMeta = masterTableMeta;
@@ -21,6 +29,10 @@ namespace DotWeb.UI
             this.connectionString = connectionString;
         }
 
+        /// <summary>
+        /// Creates detail grid view and its header (H3) in a container.
+        /// </summary>
+        /// <param name="container">The container control in which this template is instantiated.</param>
         public void InstantiateIn(Control container)
         {
             parent = container;

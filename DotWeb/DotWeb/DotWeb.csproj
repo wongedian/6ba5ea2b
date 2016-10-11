@@ -62,8 +62,11 @@
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\DotWebDb.cs" />
     <Compile Include="Dynamic\SchemaInfo.cs" />
+    <Compile Include="UI\EditPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="UI\IMainMaster.cs" />
-    <Compile Include="UI\LeftPanel.cs" />
+    <Compile Include="UI\LeftMenu.cs" />
     <Compile Include="UI\DetailGridCreator.cs" />
     <Compile Include="UI\DetailGridTemplate.cs" />
     <Compile Include="UI\ListPage.cs">
@@ -212,7 +215,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\readme.txt" />
-    <Content Include="readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

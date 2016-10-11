@@ -6,32 +6,55 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DotWeb.Utils
 {
+    /// <summary>
+    /// Helper class dealing with SQL query handling.
+    /// </summary>
     public static class SqlHelper
     {
+        /// <summary>
+        /// Generates SELECT query for a <see cref="TableMeta"/>.
+        /// </summary>
+        /// <param name="tableMeta">Meta data of table being inspected.</param>
+        /// <returns>String, the SELECT query.</returns>
         public static string GenerateSelectQuery(TableMeta tableMeta)
         {
-            string columnList = string.Join(", ", tableMeta.Columns.Select(m => "[" + m.Name + "]"));
-            return string.Format("SELECT {0} FROM {1}.{2}", columnList, tableMeta.SchemaName, tableMeta.Name);
+            string columnList = string.Join(", ", tableMeta.Columns.Select(m => string.Concat("[", m.Name, "]")));
+            return string.Format("SELECT {0} FROM [{1}].[{2}]", columnList, tableMeta.SchemaName, tableMeta.Name);
         }
 
+        /// <summary>
+        /// Generates SELECT query for <see cref="TableMeta"/> as detail table in master-detail relationship.
+        /// </summary>
+        /// <param name="tableMeta">Meta data of table being inspected.</param>
+        /// <param name="foreignKey">Foreign key column meta data, describing master-detail relationship.</param>
+        /// <returns>String, the SELECT query.</returns>
         public static string GenerateSelectQueryDetail(TableMeta tableMeta, ColumnMeta foreignKey)
         {
-            string columnList = string.Join(", ", tableMeta.Columns.Select(m => "[" + m.Name + "]"));
-            return string.Format("SELECT {0} FROM {1}.{2} WHERE {3} = @{3}", columnList, tableMeta.SchemaName, tableMeta.Name, foreignKey.Name);
+            string columnList = string.Join(", ", tableMeta.Columns.Select(m => string.Concat("[", m.Name, "]")));
+            return string.Format("SELECT {0} FROM [{1}].[{2}] WHERE [{3}] = @{3}", columnList, tableMeta.SchemaName, tableMeta.Name, foreignKey.Name);
         }
 
+        /// <summary>
+        /// Generates INSERT query for <see cref="TableMeta"/>.
+        /// </summary>
+        /// <param name="tableMeta">Meta data of table being inspected.</param>
+        /// <returns>String, the INSERT query.</returns>
         public static string GenerateInsertQuery(TableMeta tableMeta)
         {
-            string columnList = string.Format("{0}{1}{2}", "(", string.Join(", ", tableMeta.Columns.Where(c => c.IsPrimaryKey == false).Select(m => "[" + m.Name + "]")), ")");
-            string argumentList = string.Format("{0}{1}{2}", "(", string.Join(", ", tableMeta.Columns.Where(c => c.IsPrimaryKey == false).Select(m => "@" + m.Name )), ")");
+            string columnList = string.Format("{0}{1}{2}", "(", string.Join(", ", tableMeta.Columns.Where(c => c.IsPrimaryKey == false).Select(m => string.Concat("[", m.Name, "]"))), ")");
+            string argumentList = string.Format("{0}{1}{2}", "(", string.Join(", ", tableMeta.Columns.Where(c => c.IsPrimaryKey == false).Select(m => string.Concat("@", m.Name))), ")");
 
             return string.Format("INSERT INTO {0}.{1} {2} VALUES {3}", tableMeta.SchemaName, tableMeta.Name, columnList, argumentList);
         }
 
+        /// <summary>
+        /// Generates UPDATE query for <see cref="TableMeta"/>.
+        /// </summary>
+        /// <param name="tableMeta">Meta data of table being inspected.</param>
+        /// <returns>String, the UPDATE query.</returns>
         public static string GenerateUpdateQuery(TableMeta tableMeta)
         {
             var sb = new StringBuilder();
@@ -41,35 +64,52 @@ namespace DotWeb.Utils
                     sb = sb.AppendFormat("[{0}] = @{0},", column.Name);
             }
             // remove the last comma
-            sb.Length--;
+            if (sb.Length > 0)
+                sb.Length--;
 
-            return string.Format("UPDATE {0}.{1} SET {2} WHERE {3} ", tableMeta.SchemaName, tableMeta.Name, sb.ToString(),
+            return string.Format("UPDATE [{0}].[{1}] SET {2} WHERE {3} ", tableMeta.SchemaName, tableMeta.Name, sb.ToString(),
                 GenerateWhereConditionForPrimaryKeys(tableMeta.PrimaryKeys));
         }
 
+        /// <summary>
+        /// Generates DELETE query for <see cref="TableMeta"/>.
+        /// </summary>
+        /// <param name="tableMeta">Meta data of table being inspected.</param>
+        /// <returns>String, the DELETE query.</returns>
         public static string GenerateDeleteQuery(TableMeta tableMeta)
         {
-            return string.Format("DELETE FROM {0}.{1} WHERE {2} = @{2}", tableMeta.SchemaName, tableMeta.Name,
+            return string.Format("DELETE FROM [{0}].[{1}] WHERE [{2}] = @{2}", tableMeta.SchemaName, tableMeta.Name,
                 GenerateWhereConditionForPrimaryKeys(tableMeta.PrimaryKeys));
         }
 
+        /// <summary>
+        /// Generates SQL WHERE condition for primary key, used primarily in UPDATE and DELETE queries.
+        /// </summary>
+        /// <param name="primaryKeys">An array of primary key column meta data.</param>
+        /// <returns>String, the SQL WHERE condition.</returns>
         private static string GenerateWhereConditionForPrimaryKeys(ColumnMeta[] primaryKeys)
         {
             var sb = new StringBuilder();
             for (int i = 0; i < primaryKeys.Length; i++)
             {
-                sb = sb.AppendFormat("{0} = @{0} ", primaryKeys[i].Name);
-                if (i < primaryKeys.Length)
+                sb = sb.AppendFormat("[{0}] = @{0} ", primaryKeys[i].Name);
+                if (i < primaryKeys.Length - 1)
                     sb = sb.Append("AND ");
             }
             return sb.ToString();
         }
 
-        public static DataTable GetDataTable(string sqlCommand, string connectionStringName)
+        /// <summary>
+        /// Get data table for SQL query passed as an argument.
+        /// </summary>
+        /// <param name="sqlQuery">String, SQL query to retrieve data.</param>
+        /// <param name="connectionStringName">Connection string to the underlying database.</param>
+        /// <returns>An instance of <see cref="DataTable"/>.</returns>
+        public static DataTable GetDataTable(string sqlQuery, string connectionStringName)
         {
             using (var connection = OpenConnection(connectionStringName))
             {
-                var dataAdapter = new SqlDataAdapter(sqlCommand, connection as SqlConnection);
+                var dataAdapter = new SqlDataAdapter(sqlQuery, connection as SqlConnection);
                 var dataSet = new DataSet();
                 dataAdapter.Fill(dataSet);
 
@@ -77,6 +117,11 @@ namespace DotWeb.Utils
             }
         }
 
+        /// <summary>
+        /// Opens a connection to database, given a connection string name passed as an argument.
+        /// </summary>
+        /// <param name="connectionStringName">Connection string name in web.config.</param>
+        /// <returns>An instance of <see cref="DbConnection"/>.</returns>
         public static DbConnection OpenConnection(string connectionStringName)
         {
             if (ConfigurationManager.ConnectionStrings[connectionStringName] == null)
@@ -89,7 +134,12 @@ namespace DotWeb.Utils
             return connection;
         }
 
-        public static List<FKInfo> GetDbSchemaInfo(string connectionStringName)
+        /// <summary>
+        /// Gets foreign key schema info of a database.
+        /// </summary>
+        /// <param name="connectionStringName">Connection string name in web.config.</param>
+        /// <returns></returns>
+        public static List<FKInfo> GetForeignKeySchemaInfo(string connectionStringName)
         {
             var sql = "SELECT  " +
                       "   KCU1.CONSTRAINT_NAME AS FK_CONSTRAINT_NAME " +

@@ -1,11 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using DevExpress.Web;
 using DotWeb;
+using System;
 
 namespace DotWeb_Admin {
     public partial class RootMaster : System.Web.UI.MasterPage {

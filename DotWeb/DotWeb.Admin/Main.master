@@ -1,11 +1,12 @@
 <%@ Master Language="C#" MasterPageFile="~/Root.master" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="DotWeb_Admin.MainMaster" %>
 
-<%-- DXCOMMENT: Page Main.master is a master page that contains central area layout --%>
-<asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">
+<asp:Content ID="title" ContentPlaceHolderID="PageTitle" runat="server"><asp:ContentPlaceHolder ID="PageTitle" runat="server"/></asp:Content>
+
+<asp:Content ID="content" ContentPlaceHolderID="Content" runat="server">
     <dx:ASPxSplitter ID="ContentSplitter" runat="server" Width="100%" Height="100%">
         <ClientSideEvents PaneResized="function(s, e) { 
-            if(window.ASPxGridView1 && e.pane.name == 'ContentCenter')
-                ASPxGridView1.SetHeight(e.pane.GetClientHeight());
+            if(window.masterGridView && e.pane.name == 'ContentCenter')
+                masterGridView.SetHeight(e.pane.GetClientHeight());
             }" 
         />
         <Styles>
@@ -38,7 +39,7 @@
                     </SeparatorStyle>
                 </Separator>
                 <ContentCollection>
-                    <dx:SplitterContentControl CssClass="mainContent">
+                    <dx:SplitterContentControl>
                         <asp:ContentPlaceHolder ID="MainContent" runat="server"/>
                     </dx:SplitterContentControl>
                 </ContentCollection>

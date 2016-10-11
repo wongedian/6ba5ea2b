@@ -92,7 +92,7 @@ namespace DotWeb
                 outputDirectory = "output";
             }
 
-            outputDirectory = string.Concat(Helper.GetAssemblyDirectory(), Path.DirectorySeparatorChar, outputDirectory);
+            outputDirectory = string.Concat(Helper.GetExecutingAssemblyDirectory(), Path.DirectorySeparatorChar, outputDirectory);
 
             if (!Directory.Exists(outputDirectory))
                 Directory.CreateDirectory(outputDirectory);
@@ -100,7 +100,7 @@ namespace DotWeb
 
         private void EnsureTemplateDirectory()
         {
-            templateDirectory = string.Concat(Helper.GetAssemblyDirectory(), Path.DirectorySeparatorChar, "templates");
+            templateDirectory = string.Concat(Helper.GetExecutingAssemblyDirectory(), Path.DirectorySeparatorChar, "templates");
 
             if (!Directory.Exists(templateDirectory))
                 throw new DirectoryNotFoundException(templateDirectory);
@@ -131,7 +131,7 @@ namespace DotWeb
 
         private DbContext GetDbContextFromAssembly(string assemblyName)
         {
-            var assembly = Assembly.LoadFrom(string.Concat(Helper.GetAssemblyDirectory(), Path.DirectorySeparatorChar, assemblyName));
+            var assembly = Assembly.LoadFrom(string.Concat(Helper.GetExecutingAssemblyDirectory(), Path.DirectorySeparatorChar, assemblyName));
             var types = assembly.GetTypes();
             foreach (var type in types)
             {

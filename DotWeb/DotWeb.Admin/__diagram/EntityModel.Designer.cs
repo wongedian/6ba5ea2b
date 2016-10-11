@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\github\c901cb43\Mercedes\DotWeb.Admin\__diagram\EntityModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\github\6ba5ea2b\DotWeb\DotWeb.Admin\__diagram\EntityModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

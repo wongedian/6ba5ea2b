@@ -75,7 +75,7 @@ namespace DotWeb
             if (string.IsNullOrEmpty(ConfigurationManager.AppSettings["appId"]))
                 throw new ArgumentException("appId must be specified in config.");
             appId = int.Parse(ConfigurationManager.AppSettings["appId"].ToString());
-            fkInfo = SqlHelper.GetDbSchemaInfo(connectionStringName);
+            fkInfo = SqlHelper.GetForeignKeySchemaInfo(connectionStringName);
 
             using (var connection = SqlHelper.OpenConnection(connectionStringName))
             {
@@ -96,7 +96,8 @@ namespace DotWeb
         /// <param name="connection">Existing database connection.</param>
         private void InspectTables(DbConnection connection)
         {
-            var tables = connection.GetSchema("Tables");
+            var tables = connection.GetSchema("Tables", new string[] { dbName, null, null, "BASE TABLE" });
+            Helper.WriteData("Tables", tables);
             foreach (DataRow row in tables.Rows)
             {
                 // Exclude entity framework generated__MigrationHistory table
@@ -314,6 +315,7 @@ namespace DotWeb
                     .Include(t => t.Columns)
                     .Include(t => t.Children)
                     .Include(t => t.LookUpDisplayColumn)
+                    .Include(t => t.App)
                     .SingleOrDefault(t => t.Name == tableMeta.Name && t.AppId == appId);
                 if (dbTable == null)
                 {
@@ -364,6 +366,7 @@ namespace DotWeb
                 .Include(t => t.Columns)
                 .Include(t => t.Children)
                 .Include(t => t.LookUpDisplayColumn)
+                .Include(t => t.App)
                 .Where(t => t.AppId == appId).ToList();
 
             if (!sharedContext)

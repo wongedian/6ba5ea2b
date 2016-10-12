@@ -19,10 +19,15 @@ namespace DotWeb.Utils
         /// </summary>
         /// <param name="tableMeta">Meta data of table being inspected.</param>
         /// <returns>String, the SELECT query.</returns>
-        public static string GenerateSelectQuery(TableMeta tableMeta)
+        public static string GenerateSelectQuery(TableMeta tableMeta, bool byId = false)
         {
             string columnList = string.Join(", ", tableMeta.Columns.Select(m => string.Concat("[", m.Name, "]")));
-            return string.Format("SELECT {0} FROM [{1}].[{2}]", columnList, tableMeta.SchemaName, tableMeta.Name);
+            if (byId)
+            {
+                return string.Format("SELECT {0} FROM [{1}].[{2}] WHERE {3} ", columnList, tableMeta.SchemaName, tableMeta.Name,
+                    GenerateWhereConditionForPrimaryKeys(tableMeta.PrimaryKeys));
+            }
+            return string.Format("SELECT {0} FROM [{1}].[{2}] ", columnList, tableMeta.SchemaName, tableMeta.Name);
         }
 
         /// <summary>
@@ -34,7 +39,7 @@ namespace DotWeb.Utils
         public static string GenerateSelectQueryDetail(TableMeta tableMeta, ColumnMeta foreignKey)
         {
             string columnList = string.Join(", ", tableMeta.Columns.Select(m => string.Concat("[", m.Name, "]")));
-            return string.Format("SELECT {0} FROM [{1}].[{2}] WHERE [{3}] = @{3}", columnList, tableMeta.SchemaName, tableMeta.Name, foreignKey.Name);
+            return string.Format("SELECT {0} FROM [{1}].[{2}] WHERE [{3}] = @{3} ", columnList, tableMeta.SchemaName, tableMeta.Name, foreignKey.Name);
         }
 
         /// <summary>
@@ -47,7 +52,7 @@ namespace DotWeb.Utils
             string columnList = string.Format("{0}{1}{2}", "(", string.Join(", ", tableMeta.Columns.Where(c => c.IsPrimaryKey == false).Select(m => string.Concat("[", m.Name, "]"))), ")");
             string argumentList = string.Format("{0}{1}{2}", "(", string.Join(", ", tableMeta.Columns.Where(c => c.IsPrimaryKey == false).Select(m => string.Concat("@", m.Name))), ")");
 
-            return string.Format("INSERT INTO {0}.{1} {2} VALUES {3}", tableMeta.SchemaName, tableMeta.Name, columnList, argumentList);
+            return string.Format("INSERT INTO {0}.{1} {2} VALUES {3} ", tableMeta.SchemaName, tableMeta.Name, columnList, argumentList);
         }
 
         /// <summary>
@@ -78,7 +83,7 @@ namespace DotWeb.Utils
         /// <returns>String, the DELETE query.</returns>
         public static string GenerateDeleteQuery(TableMeta tableMeta)
         {
-            return string.Format("DELETE FROM [{0}].[{1}] WHERE [{2}] = @{2}", tableMeta.SchemaName, tableMeta.Name,
+            return string.Format("DELETE FROM [{0}].[{1}] WHERE [{2}] = @{2} ", tableMeta.SchemaName, tableMeta.Name,
                 GenerateWhereConditionForPrimaryKeys(tableMeta.PrimaryKeys));
         }
 

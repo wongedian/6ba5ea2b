@@ -5,6 +5,8 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Routing;
+using System.Web.UI;
 
 namespace DotWeb.UI
 {
@@ -17,7 +19,7 @@ namespace DotWeb.UI
     public class EditPage : System.Web.UI.Page
     {
         protected TableMeta tableMeta;
-        protected ASPxGridView masterGrid;
+        protected ASPxFormLayout formLayout;
         protected string connectionString;
 
         public EditPage() : base()
@@ -43,6 +45,36 @@ namespace DotWeb.UI
             tableMeta = schemaInfo.Tables.Where(s => s.Name.Equals(tableName, StringComparison.InvariantCultureIgnoreCase)).SingleOrDefault();
             if (tableMeta == null)
                 Response.Redirect("~/404.aspx");
+
+            var routeValues = RouteData.Values["values"] == null ? "" : RouteData.Values["values"].ToString();
+            var idValues = routeValues.Split(new char[] { ',' });
+
+            var formLayoutCreator = new FormLayoutCreator(tableMeta, connectionString, idValues, (RouteData.Route as Route).Url.Contains("view"));
+            formLayoutCreator.EmptyData += formLayoutCreator_EmptyData;
+            formLayout = formLayoutCreator.CreateFormLayout();
+
+            var masterPage = this.Controls[0] as IMainMaster;
+            if (masterPage == null)
+                Response.Write("<p>Your master page must implement IMainMaster interface.</p>");
+            else
+            {
+                var panel = new System.Web.UI.WebControls.Panel();
+                panel.CssClass = "mainContent";
+                panel.Controls.Add(new LiteralControl(string.Format("<h2>{0}</h2>", tableMeta.Caption)));
+                panel.Controls.Add(formLayout);
+
+                masterPage.MainContent.Controls.Add(panel);
+                masterPage.PageTitle.Controls.Add(new LiteralControl(tableMeta.Caption));
+
+            }
+        }
+
+        void formLayoutCreator_EmptyData(object sender, EventArgs e)
+        {
+            formLayout.Visible = false;
+            var masterPage = this.Controls[0] as IMainMaster;
+            var panel = masterPage.MainContent.Controls[0] as System.Web.UI.WebControls.Panel;
+            panel.Controls.Add(new LiteralControl("<p>Data does not exit.</p>"));
         }
 
         /// <summary>
@@ -52,6 +84,7 @@ namespace DotWeb.UI
         /// <param name="e"></param>
         protected void Page_Load(object sender, EventArgs e)
         {
+            formLayout.DataBind();
         }
     }
 }

@@ -140,5 +140,15 @@ namespace DotWeb.Utils
             return Regex.Replace(sb.ToString(), "[a-z][A-Z]", m => m.Value[0] + " " + m.Value[1]);
         }
 
+        /// <summary>
+        /// Removes spaces from string.
+        /// </summary>
+        /// <param name="inputStr">Input string.</param>
+        /// <returns>String, without spaces.</returns>
+        public static string RemoveSpaces(this string inputStr)
+        {
+            return inputStr.Replace(" ", string.Empty);
+        }
+
     }
 }

@@ -1,9 +1,10 @@
 ﻿using DevExpress.Web;
+using DotWeb.Utils;
 using System;
 using System.Linq;
 using System.Web.UI.WebControls;
 
-namespace DotWeb.Utils
+namespace DotWeb.UI
 {
     /// <summary>
     /// Helper methods for <see cref="ASPxGridView"/>.

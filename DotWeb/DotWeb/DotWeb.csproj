@@ -76,7 +76,7 @@
     <Compile Include="UI\MasterGridCreator.cs" />
     <Compile Include="UI\MultipleDetailGridTemplate.cs" />
     <Compile Include="Utils\FKInfo.cs" />
-    <Compile Include="Utils\GridViewHelper.cs" />
+    <Compile Include="UI\GridViewHelper.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\Module.cs" />
     <Compile Include="Models\ColumnMeta.cs" />

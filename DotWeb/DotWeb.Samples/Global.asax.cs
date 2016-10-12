@@ -15,6 +15,10 @@ namespace DotWeb_Samples {
         {
             routes.MapPageRoute("list",
                 "{module}/list", "~/dynamic/list.aspx");
+            routes.MapPageRoute("edit",
+                "{module}/edit/{values}", "~/dynamic/edit.aspx");
+            routes.MapPageRoute("view",
+                "{module}/view/{values}", "~/dynamic/edit.aspx");
         }
 
         void InspectSchema()
